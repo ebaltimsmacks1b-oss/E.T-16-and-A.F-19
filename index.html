@@ -1,248 +1,258 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Our Memories 💖</title>
+<meta charset="UTF-8">
+<title>Our Memories 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: Arial;
-      text-align: center;
-      color: white;
-      background: black;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
+body {
+  overflow: hidden;
+  height: 100vh;
+  background: black;
+}
 
-    h1 {
-      color: pink;
-      margin-top: 20px;
-      position: relative;
-      z-index: 2;
-    }
+/* STAR BACKGROUND */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  animation: twinkle 2s infinite alternate;
+}
 
-    .slideshow {
-      width: 80%;
-      max-width: 420px;
-      border-radius: 15px;
-      box-shadow: 0 0 25px pink;
-      margin-top: 20px;
-      position: relative;
-      z-index: 2;
-    }
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
 
-    .heart {
-      position: absolute;
-      color: pink;
-      font-size: 18px;
-      animation: floatUp 6s linear infinite;
-      opacity: 0.8;
-      z-index: 1;
-    }
+/* LOGIN SCREEN */
+#loginScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  z-index: 10;
+}
 
-    @keyframes floatUp {
-      0% { transform: translateY(100vh); opacity: 1; }
-      100% { transform: translateY(-10vh); opacity: 0; }
-    }
+#loginScreen input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+  text-align: center;
+}
 
-    #lockScreen {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: black;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
+#loginScreen button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background: pink;
+}
 
-    input {
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      margin-top: 10px;
-      text-align: center;
-    }
+/* MAIN */
+#main {
+  display: none;
+  height: 100vh;
+  width: 100%;
+  color: white;
+  text-align: center;
+  position: relative;
+}
 
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      background: pink;
-      cursor: pointer;
-      font-weight: bold;
-    }
+/* SLIDESHOW */
+.slideshow {
+  width: 80%;
+  margin: 20px auto;
+  position: relative;
+}
 
-    #messageBox {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      background: rgba(255,192,203,0.9);
-      color: black;
-      padding: 15px;
-      border-radius: 15px;
-      width: 80%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
+.slideshow img,
+.slideshow video {
+  width: 100%;
+  border-radius: 20px;
+  display: none;
+}
 
-    .heartBeat {
-      font-size: 40px;
-      color: red;
-      animation: beat 1s infinite;
-      position: relative;
-      z-index: 2;
-    }
+.slideshow img.active,
+.slideshow video.active {
+  display: block;
+  animation: fade 1s ease-in-out;
+}
 
-    @keyframes beat {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
-  </style>
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* MESSAGE BOX */
+#messageBox {
+  margin-top: 15px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 10px;
+}
+</style>
 </head>
 
 <body>
 
-<canvas id="stars"></canvas>
+<!-- STARS -->
+<script>
+for (let i = 0; i < 100; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+  star.style.top = Math.random() * window.innerHeight + "px";
+  star.style.left = Math.random() * window.innerWidth + "px";
+  document.body.appendChild(star);
+}
+</script>
 
-<!-- 🔐 LOCK SCREEN -->
-<div id="lockScreen">
-  <h2>💖 Enter Her Name to Continue</h2>
-  <input id="nameInput" placeholder="Type name...">
-  <button onclick="unlock()">Unlock 💕</button>
+<!-- LOGIN -->
+<div id="loginScreen">
+  <h2>💖 Enter Her Name to Unlock 💖</h2>
+  <input type="text" id="nameInput" placeholder="Type name...">
+  <button onclick="unlock()">Enter</button>
 </div>
 
-<h1>Our Memories 💕</h1>
+<!-- MAIN CONTENT -->
+<div id="main">
 
-<div class="heartBeat">💓</div>
+  <h1>Our Memories 💖</h1>
 
-<img id="slide" class="slideshow" src="images/photo1.jpg">
+  <div class="slideshow">
 
-<br>
+    <!-- 12 PHOTOS -->
+    <img class="slide active" src="photos/1.jpg">
+    <img class="slide" src="photos/2.jpg">
+    <img class="slide" src="photos/3.jpg">
+    <img class="slide" src="photos/4.jpg">
+    <img class="slide" src="photos/5.jpg">
+    <img class="slide" src="photos/6.jpg">
+    <img class="slide" src="photos/7.jpg">
+    <img class="slide" src="photos/8.jpg">
+    <img class="slide" src="photos/9.jpg">
+    <img class="slide" src="photos/10.jpg">
+    <img class="slide" src="photos/11.jpg">
+    <img class="slide" src="photos/12.jpg">
 
-<button onclick="startExperience()">💖 Start Memories</button>
-<button onclick="showMessage()">💌 Reveal Love Message</button>
+    <!-- VIDEO -->
+    <video class="slide" controls>
+      <source src="video/1.mp4" type="video/mp4">
+    </video>
 
-<!-- 🎧 MUSIC -->
+  </div>
+
+  <div id="messageBox" onclick="revealMessage()">
+    💌 Click to reveal love message
+  </div>
+
+  <p id="loveMessage" style="display:none; margin-top:10px;">
+    You are my forever, Abby 💖  
+    Every moment with you is my favorite memory.
+  </p>
+
+</div>
+
+<!-- MUSIC -->
 <audio id="music" loop>
-  <source src="music/ohh-my-angel.mp3" type="audio/mpeg">
+  <source src="music/song.mp3" type="audio/mp3">
 </audio>
 
-<!-- 💌 MESSAGE -->
-<div id="messageBox">
-  You are my favorite place to go when my mind searches for peace 💖
-</div>
+<!-- HEARTS -->
+<canvas id="hearts"></canvas>
 
 <script>
-
-const secretName = "angel";
-
+/* UNLOCK */
 function unlock() {
-  let input = document.getElementById("nameInput").value.toLowerCase().trim();
+  let name = document.getElementById("nameInput").value.trim().toLowerCase();
 
-  if (input === secretName) {
-    document.getElementById("lockScreen").style.display = "none";
-
-    const music = document.getElementById("music");
-    music.volume = 0.5;
-
-    music.play().catch(err => {
-      console.log("Autoplay blocked until interaction");
-    });
-
+  if (name === "abby") {
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("main").style.display = "block";
+    document.getElementById("music").play();
+    startSlides();
+    startHearts();
   } else {
-    alert("Try again 💕");
+    alert("Wrong name 💔 try again");
   }
 }
 
-/* 🎞 SLIDESHOW */
-const images = [
-  "images/photo1.jpg",
-  "images/photo2.jpg",
-  "images/photo3.jpg",
-  "images/photo4.jpg"
-];
+/* SLIDESHOW */
+let index = 0;
+function startSlides() {
+  let slides = document.querySelectorAll(".slide");
 
-let i = 0;
-
-setInterval(() => {
-  i = (i + 1) % images.length;
-  document.getElementById("slide").src = images[i];
-}, 3000);
-
-/* 💌 MESSAGE */
-function showMessage() {
-  document.getElementById("messageBox").style.display = "block";
-  setTimeout(() => {
-    document.getElementById("messageBox").style.display = "none";
-  }, 4000);
+  setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }, 3000);
 }
 
-/* 💞 FLOATING HEARTS */
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.innerHTML = "❤";
-
-  heart.style.left = Math.random() * window.innerWidth + "px";
-  heart.style.animationDuration = (3 + Math.random() * 3) + "s";
-
-  document.body.appendChild(heart);
-
-  setTimeout(() => heart.remove(), 6000);
+/* MESSAGE */
+function revealMessage() {
+  document.getElementById("loveMessage").style.display = "block";
 }
-setInterval(createHeart, 250);
 
-/* 🌌 STAR ANIMATION */
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
+/* HEARTS */
+function startHearts() {
+  const canvas = document.getElementById("hearts");
+  const ctx = canvas.getContext("2d");
 
-function resize() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+
+  let hearts = [];
+
+  function Heart() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height;
+    this.size = Math.random() * 10 + 5;
+    this.speed = Math.random() * 2 + 1;
+  }
+
+  for (let i = 0; i < 50; i++) {
+    hearts.push(new Heart());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "pink";
+
+    hearts.forEach(h => {
+      ctx.beginPath();
+      ctx.arc(h.x, h.y, h.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      h.y -= h.speed;
+
+      if (h.y < 0) {
+        h.y = canvas.height;
+        h.x = Math.random() * canvas.width;
+      }
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
 }
-resize();
-
-window.addEventListener("resize", resize);
-
-let stars = Array(150).fill().map(() => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  r: Math.random() * 1.5
-}));
-
-function drawStars() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = "white";
-
-  stars.forEach(s => {
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fill();
-  });
-}
-
-function animateStars() {
-  stars.forEach(s => {
-    s.y += 0.2;
-    if (s.y > canvas.height) s.y = 0;
-  });
-  drawStars();
-  requestAnimationFrame(animateStars);
-}
-
-animateStars();
-
 </script>
 
 </body>
